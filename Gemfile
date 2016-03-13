@@ -22,6 +22,12 @@ gem 'jbuilder', '~> 2.0'
 gem 'puma'
 
 gem 'react-rails', '~> 1.6.0'
+gem 'mysql'
+gem 'mysql2'
+
+gem 'omniauth', '>= 1.0.0'
+gem 'devise', git: 'git@github.com:plataformatec/devise.git'
+gem 'devise_token_auth', git: 'git://github.com/lynndylanhurley/devise_token_auth.git'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

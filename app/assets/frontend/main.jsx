@@ -11,11 +11,24 @@ class Main extends React.Component{
 	}
 
 	addQues(){
-		let newQuestionList = this.state.questionList;
-		newQuestionList.unshift({id: Date.now(), body: 'a new question'});
-		this.setState( {questionList: newQuestionList});
-		console.log("hey");
+		$.post("/question", { q_text: "aaas"})
+		.success(saved_question => {
+			let newQuestionList = this.state.questionList;
+			newQuestionList.unshift(saved_question);
+			this.setState( {questionList: newQuestionList});
+			console.log("a new question added");	
+		})
+		.error(error => console.log(error));
+		
 	}
+
+	componentDidMount(){
+		$.ajax("/questions")
+		.success(data => this.setState({questionList: data}))
+		.error(error => console.log(error));
+
+	}
+
 	render() {
 		return ( 
 			<div className = "container">
@@ -29,11 +42,11 @@ class Main extends React.Component{
 
 
 let documentReady = () => {
-	ReactDOM.render(
-		<Main />,
-		document.getElementById('react')
-		);
-
+	let reactNode = document.getElementById('react');
+	if(reactNode)
+	{ 
+		ReactDOM.render(<Main />, reactNode);
+	}
 };
 
 $(documentReady);

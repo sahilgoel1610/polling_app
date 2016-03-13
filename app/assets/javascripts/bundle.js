@@ -82,10 +82,27 @@
 		_createClass(Main, [{
 			key: "addQues",
 			value: function addQues() {
-				var newQuestionList = this.state.questionList;
-				newQuestionList.unshift({ id: Date.now(), body: 'a new question' });
-				this.setState({ questionList: newQuestionList });
-				console.log("hey");
+				var _this2 = this;
+	
+				$.post("/question", { q_text: "aaas" }).success(function (saved_question) {
+					var newQuestionList = _this2.state.questionList;
+					newQuestionList.unshift(saved_question);
+					_this2.setState({ questionList: newQuestionList });
+					console.log("a new question added");
+				}).error(function (error) {
+					return console.log(error);
+				});
+			}
+		}, {
+			key: "componentDidMount",
+			value: function componentDidMount() {
+				var _this3 = this;
+	
+				$.ajax("/questions").success(function (data) {
+					return _this3.setState({ questionList: data });
+				}).error(function (error) {
+					return console.log(error);
+				});
 			}
 		}, {
 			key: "render",
@@ -103,7 +120,10 @@
 	}(React.Component);
 	
 	var documentReady = function documentReady() {
-		ReactDOM.render(React.createElement(Main, null), document.getElementById('react'));
+		var reactNode = document.getElementById('react');
+		if (reactNode) {
+			ReactDOM.render(React.createElement(Main, null), reactNode);
+		}
 	};
 	
 	$(documentReady);
@@ -265,8 +285,20 @@
 				return React.createElement(
 					"li",
 					null,
-					this.props.body,
-					" "
+					React.createElement(
+						"div",
+						null,
+						" ",
+						this.props.question_text,
+						" "
+					),
+					React.createElement(
+						"div",
+						null,
+						" Question type => ",
+						this.props.question_type,
+						" "
+					)
 				);
 			}
 		}]);
